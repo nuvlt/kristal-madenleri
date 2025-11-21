@@ -106,6 +106,7 @@
             text-align: center;
             flex: 1;
             position: relative;
+            padding: 10px;
         }
 
         .balance-item::after {
@@ -120,6 +121,16 @@
 
         .balance-item:last-child::after {
             display: none;
+        }
+
+        @media (max-width: 600px) {
+            .balance-item::after {
+                display: none;
+            }
+            
+            .balance-item {
+                padding: 5px;
+            }
         }
 
         .balance-label {
@@ -142,12 +153,26 @@
             font-family: 'Courier New', monospace;
         }
 
+        @media (max-width: 600px) {
+            .balance-value {
+                font-size: 24px;
+            }
+        }
+
         .bet-input-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 600px) {
+            .bet-input-wrapper {
+                gap: 5px;
+                margin-top: 8px;
+            }
         }
 
         .bet-input {
@@ -164,6 +189,14 @@
             box-shadow: 
                 inset 0 0 10px rgba(255, 215, 0, 0.3),
                 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            .bet-input {
+                width: 100px;
+                font-size: 18px;
+                padding: 6px;
+            }
         }
 
         .bet-input:focus {
@@ -187,6 +220,13 @@
             transition: all 0.1s;
         }
 
+        @media (max-width: 600px) {
+            .bet-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
         .bet-btn:hover {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #aa3300, 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -203,6 +243,16 @@
             padding: 15px;
             background: rgba(0, 0, 0, 0.5);
             border-bottom: 2px solid #8a2be2;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 600px) {
+            .collectors-bar {
+                padding: 10px 5px;
+                gap: 5px;
+                justify-content: center;
+            }
         }
 
         .collector {
@@ -214,6 +264,18 @@
             box-shadow: 
                 0 0 20px rgba(0, 191, 255, 0.5),
                 inset 0 0 20px rgba(138, 43, 226, 0.3);
+            flex: 1;
+            min-width: 100px;
+            max-width: 150px;
+        }
+
+        @media (max-width: 600px) {
+            .collector {
+                padding: 8px 10px;
+                min-width: 90px;
+                max-width: 110px;
+                flex: 0 1 auto;
+            }
         }
 
         .collector-title {
@@ -223,11 +285,25 @@
             letter-spacing: 1px;
         }
 
+        @media (max-width: 600px) {
+            .collector-title {
+                font-size: 9px;
+                letter-spacing: 0.5px;
+            }
+        }
+
         .collector-value {
             font-size: 28px;
             font-weight: 900;
             margin-top: 5px;
             text-shadow: 0 0 15px currentColor;
+        }
+
+        @media (max-width: 600px) {
+            .collector-value {
+                font-size: 22px;
+                margin-top: 3px;
+            }
         }
 
         .ruby-slots {
@@ -248,6 +324,15 @@
             justify-content: center;
             font-size: 22px;
             box-shadow: inset 0 0 10px rgba(255, 20, 147, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .ruby-slot {
+                width: 28px;
+                height: 28px;
+                font-size: 18px;
+                border: 2px solid #ff1493;
+            }
         }
 
         .ruby-slot.filled {
@@ -684,6 +769,151 @@
             margin-top: 10px;
         }
 
+        .history-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #8a2be2, #6a0dad);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .history-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.8);
+        }
+
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .history-modal.active {
+            display: flex;
+        }
+
+        .history-content {
+            background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #ffd700;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.8);
+        }
+
+        .history-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .history-list {
+            max-height: 50vh;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+
+        .history-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #8a2be2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item.win {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .history-item.loss {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .history-symbol {
+            font-size: 32px;
+        }
+
+        .history-details {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .history-bet {
+            font-size: 14px;
+            color: #ffd700;
+        }
+
+        .history-result {
+            font-size: 12px;
+            color: #00bfff;
+            margin-top: 5px;
+        }
+
+        .history-win {
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+        }
+
+        .history-win.positive {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .history-win.negative {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 40px;
+            color: #8a2be2;
+            font-size: 18px;
+        }
+
+        .history-close-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(180deg, #ff6600, #cc4400);
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
         .sound-controls {
             position: fixed;
             bottom: 20px;
@@ -837,15 +1067,20 @@
         @media (max-width: 600px) {
             .game-title { font-size: 24px; }
             .balance-value { font-size: 24px; }
+            .balance-item::after { display: none; }
+            .balance-item { padding: 5px; }
+            .balance-label { font-size: 12px; }
+            .bet-input-wrapper { gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+            .bet-input { width: 100px; font-size: 18px; padding: 6px; }
+            .bet-btn { padding: 6px 12px; font-size: 12px; }
+            .collector-title { font-size: 9px; letter-spacing: 0.5px; }
+            .collector-value { font-size: 22px; margin-top: 3px; }
+            .ruby-slot { width: 28px; height: 28px; font-size: 18px; border: 2px solid #ff1493; }
             .crystal-display { width: 150px; height: 150px; font-size: 70px; }
             .btn { padding: 15px 30px; font-size: 20px; }
             .symbol-name { font-size: 24px; }
-            .sound-controls {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-                min-width: auto;
-            }
+            .sound-controls { bottom: 10px; right: 10px; left: auto; min-width: auto; }
+            .history-btn { bottom: 10px; left: 10px; padding: 12px 20px; font-size: 14px; }
         }
     </style>
 </head>
@@ -867,10 +1102,10 @@
                     <input type="number" class="bet-input" id="bet-input" value="1" min="0.1" step="0.5" onchange="game.updateBetFromInput()">
                 </div>
                 <div class="bet-input-wrapper">
+                    <button class="bet-btn" onclick="game.changeBet(1)">1</button>
                     <button class="bet-btn" onclick="game.changeBet(5)">5</button>
-                    <button class="bet-btn" onclick="game.changeBet(25)">25</button>
-                    <button class="bet-btn" onclick="game.changeBet(100)">100</button>
-                    <button class="bet-btn" onclick="game.changeBet(500)">250</button>
+                    <button class="bet-btn" onclick="game.changeBet(10)">10</button>
+                    <button class="bet-btn" onclick="game.changeBet(50)">50</button>
                 </div>
             </div>
         </div>
@@ -935,6 +1170,8 @@
         </div>
     </div>
 
+    <button class="history-btn" onclick="game.toggleHistory()">📜 GEÇMİŞ</button>
+
     <div class="sound-controls" id="sound-controls">
         <div class="sound-controls-header" onclick="soundManager.togglePanel()">
             <div class="sound-controls-title">🔊 Ses</div>
@@ -966,6 +1203,16 @@
                 Toplam Kazanç: <span id="minigame-win">0.00</span>
             </div>
             <button class="btn btn-spin" onclick="game.closeMinigame()" style="width: 100%; margin-top: 20px;">DEVAM ET</button>
+        </div>
+    </div>
+
+    <div class="history-modal" id="history-modal">
+        <div class="history-content">
+            <div class="history-title">📜 Bahis Geçmişi</div>
+            <div class="history-list" id="history-list">
+                <div class="history-empty">Henüz bahis geçmişi yok</div>
+            </div>
+            <button class="history-close-btn" onclick="game.toggleHistory()">KAPAT</button>
         </div>
     </div>
 
@@ -1034,6 +1281,33 @@
                         document.addEventListener('keydown', startOnInteraction, { once: true });
                     });
                 }
+                
+                // Stop music when page is hidden/closed
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.bgMusic.pause();
+                    } else if (this.musicEnabled) {
+                        this.bgMusic.play().catch(() => {});
+                    }
+                });
+                
+                // Stop music when window/tab is being unloaded
+                window.addEventListener('beforeunload', () => {
+                    this.bgMusic.pause();
+                    this.bgMusic.currentTime = 0;
+                });
+                
+                // Stop music when page loses focus (mobile browsers)
+                window.addEventListener('blur', () => {
+                    this.bgMusic.pause();
+                });
+                
+                // Resume music when page gains focus (if enabled)
+                window.addEventListener('focus', () => {
+                    if (this.musicEnabled && !document.hidden) {
+                        this.bgMusic.play().catch(() => {});
+                    }
+                });
             }
             
             togglePanel() {
@@ -1053,7 +1327,10 @@
                 
                 if (this.musicEnabled) {
                     toggle.classList.add('active');
-                    this.bgMusic.play().catch(() => {});
+                    // Force play when user manually enables music
+                    this.bgMusic.play().catch((e) => {
+                        console.log('Failed to play music:', e);
+                    });
                 } else {
                     toggle.classList.remove('active');
                     this.bgMusic.pause();
@@ -1198,6 +1475,8 @@
                 this.isSpinning = false;
                 
                 this.symbols = this.buildSymbols();
+                this.history = [];
+                this.maxHistorySize = 50;
                 this.updateUI();
             }
             
@@ -1299,6 +1578,7 @@
             async processSymbol(symbol) {
                 const resultEl = document.getElementById('symbol-result');
                 let win = 0;
+                let resultText = '';
                 
                 switch(symbol.type) {
                     case 'cash':
@@ -1337,14 +1617,19 @@
                                 calcText += ` × 2x ⚪`;
                             }
                             
-                            resultEl.textContent = `${calcText} = ⭐ ${win.toFixed(2)}`;
+                            resultText = `${calcText} = ⭐ ${win.toFixed(2)}`;
+                            resultEl.textContent = resultText;
                         } else {
-                            resultEl.textContent = `💎 Kazanç: ${win.toFixed(2)}`;
+                            resultText = `💎 Kazanç: ${win.toFixed(2)}`;
+                            resultEl.textContent = resultText;
                         }
                         
                         this.balance += win;
                         this.totalWins += win;
                         this.showWinAnimation(win);
+                        
+                        // Add to history
+                        this.addToHistory(symbol, this.bet, win, resultText);
                         
                         await this.sleep(400);
                         this.sapphireMultiplier = 0;
@@ -1357,7 +1642,9 @@
                         soundManager.playSapphireSound();
                         
                         this.sapphireMultiplier++;
-                        resultEl.textContent = `Sonraki kazanca +${this.sapphireMultiplier} çarpan!`;
+                        resultText = `Sonraki kazanca +${this.sapphireMultiplier} çarpan!`;
+                        resultEl.textContent = resultText;
+                        this.addToHistory(symbol, this.bet, 0, resultText);
                         break;
                         
                     case 'double':
@@ -1365,7 +1652,9 @@
                         soundManager.playOpalSound();
                         
                         this.opalActive = true;
-                        resultEl.textContent = 'Sonraki kazanç 2 katına çıkacak!';
+                        resultText = 'Sonraki kazanç 2 katına çıkacak!';
+                        resultEl.textContent = resultText;
+                        this.addToHistory(symbol, this.bet, 0, resultText);
                         break;
                         
                     case 'collector':
@@ -1373,7 +1662,9 @@
                         soundManager.playRubySound();
                         
                         this.rubyCount++;
-                        resultEl.textContent = `Yakut toplandı! (${this.rubyCount}/3)`;
+                        resultText = `Yakut toplandı! (${this.rubyCount}/3)`;
+                        resultEl.textContent = resultText;
+                        this.addToHistory(symbol, this.bet, 0, resultText);
                         
                         if (this.rubyCount >= 3) {
                             await this.sleep(1000);
@@ -1383,7 +1674,9 @@
                         break;
                         
                     case 'empty':
-                        resultEl.textContent = 'Boş taş... Tekrar dene!';
+                        resultText = 'Boş taş... Tekrar dene!';
+                        resultEl.textContent = resultText;
+                        this.addToHistory(symbol, this.bet, 0, resultText);
                         break;
                 }
                 
@@ -1442,6 +1735,63 @@
                 prizes.push(lastPrize);
                 
                 return prizes;
+            }
+            
+            addToHistory(symbol, bet, win, resultText) {
+                const historyItem = {
+                    timestamp: new Date(),
+                    symbol: symbol,
+                    bet: bet,
+                    win: win,
+                    result: resultText,
+                    profit: win - bet
+                };
+                
+                this.history.unshift(historyItem);
+                
+                // Keep only last 50 items
+                if (this.history.length > this.maxHistorySize) {
+                    this.history.pop();
+                }
+            }
+            
+            toggleHistory() {
+                const modal = document.getElementById('history-modal');
+                const isActive = modal.classList.contains('active');
+                
+                if (isActive) {
+                    modal.classList.remove('active');
+                } else {
+                    this.renderHistory();
+                    modal.classList.add('active');
+                }
+            }
+            
+            renderHistory() {
+                const listEl = document.getElementById('history-list');
+                
+                if (this.history.length === 0) {
+                    listEl.innerHTML = '<div class="history-empty">Henüz bahis geçmişi yok</div>';
+                    return;
+                }
+                
+                listEl.innerHTML = this.history.map((item, index) => {
+                    const time = item.timestamp.toLocaleTimeString('tr-TR');
+                    const profitClass = item.profit > 0 ? 'positive' : item.profit < 0 ? 'negative' : '';
+                    const itemClass = item.profit > 0 ? 'win' : item.profit < 0 ? 'loss' : '';
+                    const profitSign = item.profit > 0 ? '+' : '';
+                    
+                    return `
+                        <div class="history-item ${itemClass}">
+                            <div class="history-symbol">${item.symbol.icon}</div>
+                            <div class="history-details">
+                                <div class="history-bet">Bahis: ${item.bet.toFixed(2)} | ${time}</div>
+                                <div class="history-result">${item.result}</div>
+                            </div>
+                            <div class="history-win ${profitClass}">${profitSign}${item.profit.toFixed(2)}</div>
+                        </div>
+                    `;
+                }).join('');
             }
             
             closeMinigame() {
