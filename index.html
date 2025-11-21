@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 Kristal Madenleri 💎</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            background: #1a0033;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 191, 255, 0.2) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 700px;
+            width: 100%;
+            background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
+            border: 5px solid #ffd700;
+            border-radius: 25px;
+            padding: 0;
+            box-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.5),
+                0 0 80px rgba(138, 43, 226, 0.4),
+                inset 0 0 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ffd700, #ff1493, #00bfff, #ffd700);
+            border-radius: 25px;
+            z-index: -1;
+            animation: borderRotate 4s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .game-header {
+            background: linear-gradient(180deg, #ffd700 0%, #ffaa00 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #ff6600;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-title {
+            font-size: 36px;
+            font-weight: 900;
+            color: #1a0033;
+            text-shadow: 
+                2px 2px 0px #ffd700,
+                4px 4px 0px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .balance-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: linear-gradient(180deg, #1a0033 0%, #2d0055 100%);
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .balance-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .balance-item::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 10%;
+            height: 80%;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, #ffd700, transparent);
+        }
+
+        .balance-item:last-child::after {
+            display: none;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .balance-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: #00ff00;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00,
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Courier New', monospace;
+        }
+
+        .bet-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .bet-input {
+            width: 120px;
+            padding: 8px;
+            font-size: 20px;
+            font-weight: 900;
+            background: #000;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            color: #00ff00;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            box-shadow: 
+                inset 0 0 10px rgba(255, 215, 0, 0.3),
+                0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .bet-input:focus {
+            outline: none;
+            box-shadow: 
+                inset 0 0 15px rgba(255, 215, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.8);
+        }
+
+        .bet-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #ff6600 0%, #cc4400 100%);
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 0 #aa3300, 0 6px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s;
+        }
+
+        .bet-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #aa3300, 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .bet-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #aa3300, 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .collectors-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #8a2be2;
+        }
+
+        .collector {
+            text-align: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(0, 191, 255, 0.3));
+            border: 2px solid #00bfff;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 20px rgba(0, 191, 255, 0.5),
+                inset 0 0 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .collector-title {
+            font-size: 11px;
+            color: #00bfff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .collector-value {
+            font-size: 28px;
+            font-weight: 900;
+            margin-top: 5px;
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .ruby-slots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .ruby-slot {
+            width: 35px;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid #ff1493;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: inset 0 0 10px rgba(255, 20, 147, 0.3);
+        }
+
+        .ruby-slot.filled {
+            background: radial-gradient(circle, #ff1493, #8b0000);
+            box-shadow: 
+                0 0 20px #ff1493,
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: rubyGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes rubyGlow {
+            0%, 100% { box-shadow: 0 0 20px #ff1493, inset 0 0 10px rgba(255, 255, 255, 0.3); }
+            50% { box-shadow: 0 0 40px #ff1493, inset 0 0 20px rgba(255, 255, 255, 0.5); }
+        }
+
+        .slot-machine {
+            background: linear-gradient(180deg, #000 0%, #1a0033 50%, #000 100%);
+            padding: 40px 20px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .slot-machine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 215, 0, 0.03) 2px,
+                    rgba(255, 215, 0, 0.03) 4px
+                );
+            pointer-events: none;
+        }
+
+        .crystal-display {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+            border: 5px solid #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.6),
+                inset 0 0 40px rgba(255, 215, 0, 0.2);
+            position: relative;
+            animation: crystalIdle 3s ease-in-out infinite;
+        }
+
+        @keyframes crystalIdle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(5deg); }
+        }
+
+        .crystal-display.spin-animation {
+            animation: crystalSpin 0.6s ease-out;
+        }
+
+        @keyframes crystalSpin {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.4) rotate(360deg); }
+            100% { transform: scale(1) rotate(720deg); }
+        }
+
+        .crystal-display.glow-emerald {
+            border-color: #00ff00;
+            box-shadow: 
+                0 0 60px #00ff00,
+                inset 0 0 40px rgba(0, 255, 0, 0.3);
+            animation: glowPulse 0.8s ease-out;
+        }
+
+        .crystal-display.glow-sapphire {
+            border-color: #00bfff;
+            box-shadow: 
+                0 0 60px #00bfff,
+                inset 0 0 40px rgba(0, 191, 255, 0.3);
+            animation: glowPulse 0.8s ease-out;
+        }
+
+        .crystal-display.glow-opal {
+            border-color: #fff;
+            box-shadow: 
+                0 0 60px #fff,
+                inset 0 0 40px rgba(255, 255, 255, 0.3);
+            animation: glowPulse 0.8s ease-out;
+        }
+
+        .crystal-display.glow-ruby {
+            border-color: #ff1493;
+            box-shadow: 
+                0 0 60px #ff1493,
+                inset 0 0 40px rgba(255, 20, 147, 0.3);
+            animation: glowPulse 0.8s ease-out;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.8); }
+        }
+
+        .symbol-info {
+            text-align: center;
+            min-height: 80px;
+        }
+
+        .symbol-name {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 0 10px #ffd700,
+                2px 2px 0px #ff6600,
+                4px 4px 0px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .symbol-result {
+            font-size: 18px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #00ff00;
+            line-height: 1.5;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            padding: 25px;
+            justify-content: center;
+            background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
+        }
+
+        .btn {
+            padding: 20px 50px;
+            font-size: 28px;
+            font-weight: 900;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            transition: all 0.1s;
+            font-family: 'Impact', sans-serif;
+        }
+
+        .btn-spin {
+            background: linear-gradient(180deg, #00ff00 0%, #00aa00 100%);
+            color: #000;
+            border: 4px solid #ffd700;
+            box-shadow: 
+                0 6px 0 #007700,
+                0 10px 20px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 255, 0, 0.5);
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-spin:hover:not(:disabled) {
+            transform: translateY(3px);
+            box-shadow: 
+                0 3px 0 #007700,
+                0 7px 15px rgba(0, 0, 0, 0.5),
+                0 0 50px rgba(0, 255, 0, 0.7);
+        }
+
+        .btn-spin:active:not(:disabled) {
+            transform: translateY(6px);
+            box-shadow: 
+                0 0 0 #007700,
+                0 4px 10px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 0, 0.5);
+        }
+
+        .btn-spin:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .btn-auto {
+            background: linear-gradient(180deg, #ff6600 0%, #cc4400 100%);
+            color: white;
+            border: 4px solid #ffd700;
+            box-shadow: 
+                0 6px 0 #aa3300,
+                0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-auto:hover {
+            transform: translateY(3px);
+            box-shadow: 
+                0 3px 0 #aa3300,
+                0 7px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-auto:active {
+            transform: translateY(6px);
+            box-shadow: 
+                0 0 0 #aa3300,
+                0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-auto.active {
+            background: linear-gradient(180deg, #ff0000 0%, #aa0000 100%);
+            animation: btnBlink 0.5s ease-in-out infinite;
+        }
+
+        @keyframes btnBlink {
+            0%, 100% { box-shadow: 0 6px 0 #770000, 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 20px #ff0000; }
+            50% { box-shadow: 0 6px 0 #770000, 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 40px #ff0000; }
+        }
+
+        .auto-options {
+            display: none;
+            gap: 10px;
+            padding: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 2px solid #ffd700;
+        }
+
+        .auto-options.show {
+            display: flex;
+        }
+
+        .auto-count-btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #8a2be2 0%, #6a0dad 100%);
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #4a0080, 0 6px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s;
+        }
+
+        .auto-count-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #4a0080, 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .auto-count-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #4a0080, 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 3px solid #ffd700;
+            font-size: 13px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+
+        .stats-row span:first-child {
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stats-row span:last-child {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .win-animation {
+            position: absolute;
+            font-size: 60px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 
+                0 0 20px #ffd700,
+                0 0 40px #ffd700,
+                3px 3px 0 #ff6600;
+            animation: winFloat 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes winFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #ffd700;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 0.8),
+                inset 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-title {
+            font-size: 40px;
+            font-weight: 900;
+            color: #ff1493;
+            text-align: center;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 0 20px #ff1493,
+                3px 3px 0 #8b0000;
+            animation: modalTitlePulse 1s ease-in-out infinite;
+        }
+
+        @keyframes modalTitlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .minigame-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .minigame-cell {
+            background: linear-gradient(135deg, #000, #1a0033);
+            padding: 30px;
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .minigame-cell:hover:not(.revealed) {
+            transform: scale(1.05) rotate(2deg);
+            border-color: #00ff00;
+            box-shadow: 
+                0 0 40px rgba(0, 255, 0, 0.6),
+                inset 0 0 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .minigame-cell.revealed {
+            animation: cellReveal 0.5s ease-out;
+        }
+
+        @keyframes cellReveal {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(90deg) scale(1.2); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+
+        .minigame-prize {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 
+                0 0 20px #ffd700,
+                2px 2px 0 #ff6600;
+        }
+
+        .minigame-total {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 24px;
+            color: #ffd700;
+            text-transform: uppercase;
+        }
+
+        .minigame-total span {
+            font-size: 40px;
+            font-weight: 900;
+            color: #00ff00;
+            text-shadow: 
+                0 0 20px #00ff00,
+                2px 2px 0 #007700;
+            display: block;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .game-title { font-size: 24px; }
+            .balance-value { font-size: 24px; }
+            .crystal-display { width: 150px; height: 150px; font-size: 70px; }
+            .btn { padding: 15px 30px; font-size: 20px; }
+            .symbol-name { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="game-title">💎 KRİSTAL MADENLERİ 💎</div>
+        </div>
+
+        <div class="balance-bar">
+            <div class="balance-item">
+                <div class="balance-label">💰 Bakiye</div>
+                <div class="balance-value" id="balance">1000</div>
+            </div>
+            <div class="balance-item">
+                <div class="balance-label">🎲 Bahis</div>
+                <div class="balance-value" id="bet-display" style="color: #ffd700;">1</div>
+                <div class="bet-input-wrapper">
+                    <input type="number" class="bet-input" id="bet-input" value="1" min="0.1" step="0.5" onchange="game.updateBetFromInput()">
+                </div>
+                <div class="bet-input-wrapper">
+                    <button class="bet-btn" onclick="game.changeBet(1)">1</button>
+                    <button class="bet-btn" onclick="game.changeBet(5)">5</button>
+                    <button class="bet-btn" onclick="game.changeBet(10)">10</button>
+                    <button class="bet-btn" onclick="game.changeBet(50)">50</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="collectors-bar">
+            <div class="collector">
+                <div class="collector-title">💙 Safir</div>
+                <div class="collector-value" style="color: #00bfff;" id="sapphire-count">+0</div>
+            </div>
+            <div class="collector">
+                <div class="collector-title">⚪ Opal</div>
+                <div class="collector-value" style="color: #fff;" id="opal-active">-</div>
+            </div>
+            <div class="collector">
+                <div class="collector-title">🔴 Yakut</div>
+                <div class="ruby-slots">
+                    <div class="ruby-slot" id="ruby-0"></div>
+                    <div class="ruby-slot" id="ruby-1"></div>
+                    <div class="ruby-slot" id="ruby-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slot-machine">
+            <div class="crystal-display" id="crystal-display">💎</div>
+            <div class="symbol-info">
+                <div class="symbol-name" id="symbol-name">HAZIR!</div>
+                <div class="symbol-result" id="symbol-result">Spin başlatmak için OYNA butonuna bas</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-spin" id="spin-btn" onclick="game.spin()">OYNA</button>
+            <button class="btn btn-auto" id="auto-btn" onclick="game.toggleAutoOptions()">AUTO</button>
+        </div>
+
+        <div class="auto-options" id="auto-options">
+            <button class="auto-count-btn" onclick="game.startAuto(10)">10</button>
+            <button class="auto-count-btn" onclick="game.startAuto(20)">20</button>
+            <button class="auto-count-btn" onclick="game.startAuto(50)">50</button>
+            <button class="auto-count-btn" onclick="game.startAuto(100)">100</button>
+            <button class="auto-count-btn" onclick="game.stopAuto()" style="background: linear-gradient(180deg, #ff0000, #aa0000);">DURDUR</button>
+        </div>
+
+        <div class="stats">
+            <div class="stats-row">
+                <span>Toplam Spin</span>
+                <span id="total-spins">0</span>
+            </div>
+            <div class="stats-row">
+                <span>Toplam Kazanç</span>
+                <span id="total-wins">0.00</span>
+            </div>
+            <div class="stats-row">
+                <span>Gerçek RTP</span>
+                <span id="actual-rtp">-%</span>
+            </div>
+            <div class="stats-row">
+                <span>Sembol Dağılımı</span>
+                <span id="symbol-dist" style="font-size: 11px;">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="minigame-modal">
+        <div class="modal-content">
+            <div class="modal-title">🔴 YAKUT AVINDA! 🔴</div>
+            <div class="minigame-grid" id="minigame-grid"></div>
+            <div class="minigame-total">
+                Toplam Kazanç: <span id="minigame-win">0.00</span>
+            </div>
+            <button class="btn btn-spin" onclick="game.closeMinigame()" style="width: 100%; margin-top: 20px;">DEVAM ET</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // RNG Module
+        // ============================================
+        const RNG = {
+            random() {
+                const array = new Uint32Array(1);
+                crypto.getRandomValues(array);
+                return array[0] / 0xFFFFFFFF;
+            },
+            
+            choice(items) {
+                const r = this.random();
+                let cumulative = 0;
+                for (const item of items) {
+                    cumulative += item.p;
+                    if (r <= cumulative) return item;
+                }
+                return items[items.length - 1];
+            },
+            
+            randomInt(min, max) {
+                return Math.floor(this.random() * (max - min + 1)) + min;
+            },
+            
+            weightedValue(values, weights) {
+                const totalWeight = weights.reduce((a, b) => a + b, 0);
+                const r = this.random() * totalWeight;
+                let cumulative = 0;
+                for (let i = 0; i < values.length; i++) {
+                    cumulative += weights[i];
+                    if (r <= cumulative) return values[i];
+                }
+                return values[values.length - 1];
+            }
+        };
+
+        // ============================================
+        // RTP Profiles
+        // ============================================
+        const RTPProfiles = {
+            standard: {
+                name: "Standard (%65)",
+                V_cash: 1.5,
+                probs: {
+                    emerald: 0.08,
+                    sapphire: 0.12,
+                    opal: 0.03,
+                    ruby: 0.05,
+                    stone: 0.72
+                },
+                minigameEV: 18.3,
+                cashValues: [0.5, 1, 2, 3],
+                cashWeights: [3, 3, 2, 1]
+            }
+        };
+
+        // ============================================
+        // Game Engine
+        // ============================================
+        class GameEngine {
+            constructor() {
+                this.balance = 1000;
+                this.bet = 1;
+                this.profile = RTPProfiles.standard;
+                
+                this.sapphireMultiplier = 0;
+                this.opalActive = false;
+                this.rubyCount = 0;
+                
+                this.totalSpins = 0;
+                this.totalWins = 0;
+                this.totalBets = 0;
+                this.symbolCounts = {};
+                
+                this.autoMode = false;
+                this.autoSpinId = null;
+                this.autoCount = 0;
+                this.autoRemaining = 0;
+                
+                this.isSpinning = false;
+                
+                this.symbols = this.buildSymbols();
+                this.updateUI();
+            }
+            
+            buildSymbols() {
+                const p = this.profile.probs;
+                return [
+                    { id: 'emerald', name: 'ZÜMRÜT', icon: '💎', p: p.emerald, type: 'cash', color: 'emerald' },
+                    { id: 'sapphire', name: 'SAFİR', icon: '🔷', p: p.sapphire, type: 'multiplier', color: 'sapphire' },
+                    { id: 'opal', name: 'OPAL', icon: '⚪', p: p.opal, type: 'double', color: 'opal' },
+                    { id: 'ruby', name: 'YAKUT', icon: '🔴', p: p.ruby, type: 'collector', color: 'ruby' },
+                    { id: 'stone', name: 'TAŞ', icon: '⚫', p: p.stone, type: 'empty', color: 'stone' }
+                ];
+            }
+            
+            changeBet(amount) {
+                if (this.isSpinning) return;
+                this.bet = amount;
+                document.getElementById('bet-input').value = amount;
+                document.getElementById('bet-display').textContent = amount;
+                this.updateUI();
+            }
+
+            updateBetFromInput() {
+                if (this.isSpinning) return;
+                const input = document.getElementById('bet-input');
+                let value = parseFloat(input.value);
+                
+                if (isNaN(value) || value < 0.1) value = 0.1;
+                if (value > 1000) value = 1000;
+                
+                this.bet = value;
+                input.value = value;
+                document.getElementById('bet-display').textContent = value;
+                this.updateUI();
+            }
+            
+            async spin() {
+                if (this.isSpinning) return;
+                if (this.balance < this.bet) {
+                    this.showMessage('Yetersiz bakiye!');
+                    return;
+                }
+                
+                this.isSpinning = true;
+                this.balance -= this.bet;
+                this.totalSpins++;
+                this.totalBets += this.bet;
+                
+                document.getElementById('spin-btn').disabled = true;
+                
+                const symbol = RNG.choice(this.symbols);
+                this.symbolCounts[symbol.id] = (this.symbolCounts[symbol.id] || 0) + 1;
+                
+                await this.animateSpin(symbol);
+                await this.processSymbol(symbol);
+                
+                this.updateUI();
+                
+                this.isSpinning = false;
+                document.getElementById('spin-btn').disabled = false;
+                
+                if (this.autoMode && this.autoRemaining > 0) {
+                    this.autoRemaining--;
+                    this.updateAutoButton();
+                    
+                    if (this.autoRemaining > 0 && this.balance >= this.bet) {
+                        this.autoSpinId = setTimeout(() => this.spin(), 800);
+                    } else {
+                        this.stopAuto();
+                    }
+                }
+            }
+            
+            async animateSpin(symbol) {
+                const display = document.getElementById('crystal-display');
+                const nameEl = document.getElementById('symbol-name');
+                const resultEl = document.getElementById('symbol-result');
+                
+                display.className = 'crystal-display spin-animation';
+                
+                for (let i = 0; i < 8; i++) {
+                    const randomSymbol = this.symbols[RNG.randomInt(0, this.symbols.length - 1)];
+                    display.textContent = randomSymbol.icon;
+                    await this.sleep(80);
+                }
+                
+                display.textContent = symbol.icon;
+                display.classList.add(`glow-${symbol.color}`);
+                
+                nameEl.textContent = symbol.name;
+                resultEl.textContent = '';
+                
+                await this.sleep(400);
+            }
+            
+            async processSymbol(symbol) {
+                const resultEl = document.getElementById('symbol-result');
+                let win = 0;
+                
+                switch(symbol.type) {
+                    case 'cash':
+                        const baseWin = RNG.weightedValue(
+                            this.profile.cashValues, 
+                            this.profile.cashWeights
+                        );
+                        win = baseWin * this.bet;
+                        
+                        const currentSapphire = this.sapphireMultiplier;
+                        const currentOpal = this.opalActive;
+                        
+                        let totalMultiplier = 1;
+                        if (currentSapphire > 0) {
+                            totalMultiplier += currentSapphire;
+                        }
+                        if (currentOpal) {
+                            totalMultiplier *= 2;
+                        }
+                        
+                        win *= totalMultiplier;
+                        
+                        const baseAmount = baseWin * this.bet;
+                        
+                        if (totalMultiplier > 1) {
+                            let calcText = `💎 ${baseAmount.toFixed(2)}`;
+                            
+                            if (currentSapphire > 0) {
+                                const sapphireMult = (1 + currentSapphire);
+                                calcText += ` × ${sapphireMult}x 🔷`;
+                            }
+                            if (currentOpal) {
+                                calcText += ` × 2x ⚪`;
+                            }
+                            
+                            resultEl.textContent = `${calcText} = ⭐ ${win.toFixed(2)}`;
+                        } else {
+                            resultEl.textContent = `💎 Kazanç: ${win.toFixed(2)}`;
+                        }
+                        
+                        this.balance += win;
+                        this.totalWins += win;
+                        this.showWinAnimation(win);
+                        
+                        await this.sleep(400);
+                        this.sapphireMultiplier = 0;
+                        this.opalActive = false;
+                        this.updateUI();
+                        break;
+                        
+                    case 'multiplier':
+                        this.sapphireMultiplier++;
+                        resultEl.textContent = `Sonraki kazanca +${this.sapphireMultiplier} çarpan!`;
+                        break;
+                        
+                    case 'double':
+                        this.opalActive = true;
+                        resultEl.textContent = 'Sonraki kazanç 2 katına çıkacak!';
+                        break;
+                        
+                    case 'collector':
+                        this.rubyCount++;
+                        resultEl.textContent = `Yakut toplandı! (${this.rubyCount}/3)`;
+                        
+                        if (this.rubyCount >= 3) {
+                            await this.sleep(1000);
+                            await this.startMinigame();
+                            this.rubyCount = 0;
+                        }
+                        break;
+                        
+                    case 'empty':
+                        resultEl.textContent = 'Boş taş... Tekrar dene!';
+                        break;
+                }
+                
+                await this.sleep(500);
+            }
+            
+            async startMinigame() {
+                const modal = document.getElementById('minigame-modal');
+                const grid = document.getElementById('minigame-grid');
+                const winEl = document.getElementById('minigame-win');
+                
+                modal.classList.add('active');
+                grid.innerHTML = '';
+                
+                const prizes = this.generateMinigamePrizes();
+                let totalWin = 0;
+                
+                for (let i = 0; i < 10; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'minigame-cell';
+                    cell.innerHTML = '?';
+                    grid.appendChild(cell);
+                }
+                
+                const cells = grid.children;
+                for (let i = 0; i < cells.length; i++) {
+                    await this.sleep(400);
+                    const prize = prizes[i];
+                    totalWin += prize;
+                    
+                    cells[i].classList.add('revealed');
+                    cells[i].innerHTML = `<div class="minigame-prize">${prize.toFixed(2)}</div>`;
+                    winEl.textContent = totalWin.toFixed(2);
+                }
+                
+                this.balance += totalWin;
+                this.totalWins += totalWin;
+                
+                await this.sleep(1000);
+            }
+            
+            generateMinigamePrizes() {
+                const target = this.profile.minigameEV * this.bet;
+                const prizes = [];
+                let sum = 0;
+                
+                for (let i = 0; i < 9; i++) {
+                    const min = 0.2 * this.bet;
+                    const max = 0.4 * target;
+                    const prize = min + RNG.random() * (max - min);
+                    prizes.push(prize);
+                    sum += prize;
+                }
+                
+                const lastPrize = Math.max(0, target - sum);
+                prizes.push(lastPrize);
+                
+                return prizes;
+            }
+            
+            closeMinigame() {
+                document.getElementById('minigame-modal').classList.remove('active');
+            }
+            
+            toggleAutoOptions() {
+                const options = document.getElementById('auto-options');
+                options.classList.toggle('show');
+            }
+            
+            startAuto(count) {
+                if (this.isSpinning) return;
+                
+                this.autoMode = true;
+                this.autoCount = count;
+                this.autoRemaining = count;
+                
+                document.getElementById('auto-options').classList.remove('show');
+                this.updateAutoButton();
+                
+                if (!this.isSpinning) {
+                    this.spin();
+                }
+            }
+            
+            stopAuto() {
+                this.autoMode = false;
+                this.autoRemaining = 0;
+                
+                if (this.autoSpinId) {
+                    clearTimeout(this.autoSpinId);
+                    this.autoSpinId = null;
+                }
+                
+                this.updateAutoButton();
+            }
+            
+            updateAutoButton() {
+                const btn = document.getElementById('auto-btn');
+                
+                if (this.autoMode && this.autoRemaining > 0) {
+                    btn.classList.add('active');
+                    btn.textContent = `AUTO (${this.autoRemaining})`;
+                } else {
+                    btn.classList.remove('active');
+                    btn.textContent = 'AUTO';
+                }
+            }
+            
+            showWinAnimation(amount) {
+                const display = document.getElementById('crystal-display');
+                const anim = document.createElement('div');
+                anim.className = 'win-animation';
+                anim.textContent = `+${amount.toFixed(0)}`;
+                display.appendChild(anim);
+                
+                setTimeout(() => anim.remove(), 2000);
+            }
+            
+            showMessage(msg) {
+                document.getElementById('symbol-result').textContent = msg;
+            }
+            
+            updateUI() {
+                document.getElementById('balance').textContent = Math.floor(this.balance);
+                document.getElementById('bet-display').textContent = this.bet;
+                document.getElementById('sapphire-count').textContent = `+${this.sapphireMultiplier}`;
+                document.getElementById('opal-active').textContent = this.opalActive ? '2x' : '-';
+                document.getElementById('total-spins').textContent = this.totalSpins;
+                document.getElementById('total-wins').textContent = this.totalWins.toFixed(2);
+                
+                if (this.totalBets > 0) {
+                    const actualRTP = (this.totalWins / this.totalBets * 100).toFixed(2);
+                    document.getElementById('actual-rtp').textContent = actualRTP + '%';
+                } else {
+                    document.getElementById('actual-rtp').textContent = '-%';
+                }
+                
+                if (this.totalSpins > 0) {
+                    const dist = Object.entries(this.symbolCounts)
+                        .map(([id, count]) => {
+                            const symbol = this.symbols.find(s => s.id === id);
+                            const pct = (count / this.totalSpins * 100).toFixed(1);
+                            return `${symbol.icon}${pct}%`;
+                        })
+                        .join(' ');
+                    document.getElementById('symbol-dist').textContent = dist;
+                } else {
+                    document.getElementById('symbol-dist').textContent = '-';
+                }
+                
+                for (let i = 0; i < 3; i++) {
+                    const slot = document.getElementById(`ruby-${i}`);
+                    if (i < this.rubyCount) {
+                        slot.classList.add('filled');
+                        slot.textContent = '🔴';
+                    } else {
+                        slot.classList.remove('filled');
+                        slot.textContent = '';
+                    }
+                }
+            }
+            
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // ============================================
+        // Initialize Game
+        // ============================================
+        const game = new GameEngine();
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !game.isSpinning) {
+                e.preventDefault();
+                game.spin();
+            }
+        });
+    </script>
+</body>
+</html>
