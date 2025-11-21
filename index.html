@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💎 Kristal Madenleri 💎</title>
+    <title>💎 Kristal Madenleri - Premium Edition</title>
     <style>
         * {
             margin: 0;
@@ -85,7 +85,7 @@
             50% { transform: scale(1.05); }
         }
 
-        /* --- YENİ MODERN BALANCE BAR TASARIMI --- */
+        /* --- BALANCE BAR TASARIMI --- */
         .balance-bar {
             display: flex;
             justify-content: space-between;
@@ -98,7 +98,6 @@
             flex-wrap: wrap;
         }
 
-        /* Sol: Cüzdan Alanı */
         .wallet-section {
             flex: 1;
             min-width: 150px;
@@ -137,7 +136,6 @@
             color: #ffd700;
         }
 
-        /* Sağ: Bahis Kontrol Alanı */
         .bet-control-section {
             flex: 2;
             min-width: 280px;
@@ -147,7 +145,6 @@
             gap: 12px;
         }
 
-        /* Manuel Ayar (+ - Input) */
         .manual-bet-wrapper {
             display: flex;
             align-items: center;
@@ -203,7 +200,6 @@
         .adjust-btn.minus { background: #444; border: 1px solid #666; }
         .adjust-btn.plus { border: 1px solid #ffd700; }
 
-        /* Hızlı Çipler */
         .quick-chips {
             display: flex;
             gap: 10px;
@@ -247,21 +243,17 @@
                 gap: 15px;
                 padding: 15px;
             }
-            
             .wallet-section, .bet-control-section {
                 width: 100%;
                 min-width: auto;
             }
-            
             .manual-bet-wrapper {
                 width: 100%;
                 justify-content: space-between;
                 padding: 5px 10px;
             }
-            
             .wallet-display { font-size: 28px; }
         }
-        /* --- BALANCE BAR SONU --- */
 
         .collectors-bar {
             display: flex;
@@ -351,6 +343,13 @@
             font-size: 22px;
             box-shadow: inset 0 0 10px rgba(255, 20, 147, 0.3);
         }
+        
+        /* Küçük SVG ikonlar için slot ayarı */
+        .ruby-slot svg {
+            width: 70%;
+            height: 70%;
+            filter: drop-shadow(0 0 2px #ff1493);
+        }
 
         @media (max-width: 600px) {
             .ruby-slot {
@@ -362,16 +361,16 @@
         }
 
         .ruby-slot.filled {
-            background: radial-gradient(circle, #ff1493, #8b0000);
+            background: radial-gradient(circle, #330000, #000);
             box-shadow: 
                 0 0 20px #ff1493,
-                inset 0 0 10px rgba(255, 255, 255, 0.3);
+                inset 0 0 10px rgba(255, 255, 255, 0.1);
             animation: rubyGlow 1s ease-in-out infinite;
         }
 
         @keyframes rubyGlow {
-            0%, 100% { box-shadow: 0 0 20px #ff1493, inset 0 0 10px rgba(255, 255, 255, 0.3); }
-            50% { box-shadow: 0 0 40px #ff1493, inset 0 0 20px rgba(255, 255, 255, 0.5); }
+            0%, 100% { box-shadow: 0 0 15px #ff1493; }
+            50% { box-shadow: 0 0 30px #ff1493; }
         }
 
         .slot-machine {
@@ -407,19 +406,23 @@
         .crystal-display {
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
-            border: 5px solid #ffd700;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+            border: 5px solid #444;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 100px;
             margin-bottom: 20px;
-            box-shadow: 
-                0 0 40px rgba(255, 215, 0, 0.6),
-                inset 0 0 40px rgba(255, 215, 0, 0.2);
             position: relative;
             animation: crystalIdle 3s ease-in-out infinite;
+            transition: all 0.3s;
+        }
+        
+        /* SVG İkonlar için Stil */
+        .game-icon {
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
         @keyframes crystalIdle {
@@ -430,6 +433,10 @@
         .crystal-display.spin-animation {
             animation: crystalSpin 0.6s ease-out;
         }
+        
+        .crystal-display.spin-animation .game-icon {
+            filter: blur(2px);
+        }
 
         @keyframes crystalSpin {
             0% { transform: scale(1) rotate(0deg); }
@@ -437,41 +444,52 @@
             100% { transform: scale(1) rotate(720deg); }
         }
 
+        /* IŞIMA EFEKTLERİ - SVG Drop Shadow ile */
         .crystal-display.glow-emerald {
             border-color: #00ff00;
-            box-shadow: 
-                0 0 60px #00ff00,
-                inset 0 0 40px rgba(0, 255, 0, 0.3);
-            animation: glowPulse 0.8s ease-out;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3), inset 0 0 40px rgba(0, 255, 0, 0.1);
+        }
+        .crystal-display.glow-emerald .game-icon {
+            filter: drop-shadow(0 0 20px #00ff00);
+            animation: iconPulse 0.8s ease-out;
         }
 
         .crystal-display.glow-sapphire {
             border-color: #00bfff;
-            box-shadow: 
-                0 0 60px #00bfff,
-                inset 0 0 40px rgba(0, 191, 255, 0.3);
-            animation: glowPulse 0.8s ease-out;
+            box-shadow: 0 0 40px rgba(0, 191, 255, 0.3), inset 0 0 40px rgba(0, 191, 255, 0.1);
+        }
+        .crystal-display.glow-sapphire .game-icon {
+            filter: drop-shadow(0 0 20px #00bfff);
+            animation: iconPulse 0.8s ease-out;
         }
 
         .crystal-display.glow-opal {
             border-color: #fff;
-            box-shadow: 
-                0 0 60px #fff,
-                inset 0 0 40px rgba(255, 255, 255, 0.3);
-            animation: glowPulse 0.8s ease-out;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3), inset 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        .crystal-display.glow-opal .game-icon {
+            filter: drop-shadow(0 0 20px #fff);
+            animation: iconPulse 0.8s ease-out;
         }
 
         .crystal-display.glow-ruby {
             border-color: #ff1493;
-            box-shadow: 
-                0 0 60px #ff1493,
-                inset 0 0 40px rgba(255, 20, 147, 0.3);
-            animation: glowPulse 0.8s ease-out;
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.3), inset 0 0 40px rgba(255, 20, 147, 0.1);
+        }
+        .crystal-display.glow-ruby .game-icon {
+            filter: drop-shadow(0 0 20px #ff1493);
+            animation: iconPulse 0.8s ease-out;
+        }
+        
+        .crystal-display.glow-stone {
+            border-color: #555;
+            box-shadow: inset 0 0 20px #000;
         }
 
-        @keyframes glowPulse {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.8); }
+        @keyframes iconPulse {
+            0% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 10px currentColor); }
+            50% { transform: scale(1.3); filter: brightness(1.5) drop-shadow(0 0 30px currentColor); }
+            100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 20px currentColor); }
         }
 
         .symbol-info {
@@ -1111,7 +1129,6 @@
 
             <div class="bet-control-section">
                 <div class="section-label">🎲 BAHİS MİKTARI</div>
-                
                 <div class="manual-bet-wrapper">
                     <button class="adjust-btn minus" onclick="game.adjustBet(-0.5)">−</button>
                     <div class="input-container">
@@ -1119,14 +1136,12 @@
                     </div>
                     <button class="adjust-btn plus" onclick="game.adjustBet(0.5)">+</button>
                 </div>
-
                 <div class="quick-chips">
                     <button class="chip-btn" onclick="game.changeBet(1)">1</button>
                     <button class="chip-btn" onclick="game.changeBet(5)">5</button>
                     <button class="chip-btn" onclick="game.changeBet(10)">10</button>
                     <button class="chip-btn" onclick="game.changeBet(50)">50</button>
                 </div>
-                
                 <div id="bet-display" style="display:none;">1</div>
             </div>
         </div>
@@ -1151,7 +1166,8 @@
         </div>
 
         <div class="slot-machine">
-            <div class="crystal-display" id="crystal-display">💎</div>
+            <div class="crystal-display" id="crystal-display">
+                </div>
             <div class="symbol-info">
                 <div class="symbol-name" id="symbol-name">HAZIR!</div>
                 <div class="symbol-result" id="symbol-result">Spin başlatmak için OYNA butonuna bas</div>
@@ -1468,18 +1484,97 @@
                 this.symbols = this.buildSymbols();
                 this.history = [];
                 this.maxHistorySize = 50;
+                
+                // İlk açılışta rastgele bir kristal göster
+                setTimeout(() => {
+                   document.getElementById('crystal-display').innerHTML = this.getSymbolIcon('emerald');
+                }, 100);
+
                 this.updateUI();
             }
             
             buildSymbols() {
                 const p = this.profile.probs;
                 return [
-                    { id: 'emerald', name: 'ZÜMRÜT', icon: '💎', p: p.emerald, type: 'cash', color: 'emerald' },
-                    { id: 'sapphire', name: 'SAFİR', icon: '🔷', p: p.sapphire, type: 'multiplier', color: 'sapphire' },
-                    { id: 'opal', name: 'OPAL', icon: '⚪', p: p.opal, type: 'double', color: 'opal' },
-                    { id: 'ruby', name: 'YAKUT', icon: '🔴', p: p.ruby, type: 'collector', color: 'ruby' },
-                    { id: 'stone', name: 'TAŞ', icon: '⚫', p: p.stone, type: 'empty', color: 'stone' }
+                    { id: 'emerald', name: 'ZÜMRÜT', p: p.emerald, type: 'cash', color: 'emerald' },
+                    { id: 'sapphire', name: 'SAFİR', p: p.sapphire, type: 'multiplier', color: 'sapphire' },
+                    { id: 'opal', name: 'OPAL', p: p.opal, type: 'double', color: 'opal' },
+                    { id: 'ruby', name: 'YAKUT', p: p.ruby, type: 'collector', color: 'ruby' },
+                    { id: 'stone', name: 'TAŞ', p: p.stone, type: 'empty', color: 'stone' }
                 ];
+            }
+
+            // YENİ: SVG İkon Üreticisi
+            getSymbolIcon(id) {
+                const commonAttr = 'viewBox="0 0 100 100" class="game-icon"';
+                switch(id) {
+                    case 'emerald':
+                        return `
+                        <svg ${commonAttr}>
+                            <defs>
+                                <linearGradient id="gradEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#006633;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M25,25 L75,25 L95,50 L50,95 L5,50 Z" fill="url(#gradEmerald)" stroke="#aaffaa" stroke-width="2" />
+                            <path d="M25,25 L5,50 L50,95 M75,25 L95,50 L50,95" fill="none" stroke="#004422" stroke-width="1" opacity="0.5"/>
+                            <polygon points="25,25 75,25 95,50 5,50" fill="rgba(255,255,255,0.2)" />
+                        </svg>`;
+                    case 'sapphire':
+                        return `
+                        <svg ${commonAttr}>
+                            <defs>
+                                <linearGradient id="gradSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00ccff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000088;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M50,5 L90,50 L50,95 L10,50 Z" fill="url(#gradSapphire)" stroke="#88ffff" stroke-width="2" />
+                            <path d="M50,5 L50,95 M10,50 L90,50" fill="none" stroke="#000066" stroke-width="1" opacity="0.5"/>
+                            <polygon points="50,25 70,50 50,75 30,50" fill="rgba(255,255,255,0.3)" />
+                        </svg>`;
+                    case 'opal':
+                        return `
+                        <svg ${commonAttr}>
+                            <defs>
+                                <radialGradient id="gradOpal" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                                    <stop offset="60%" style="stop-color:#ffddff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ccaaee;stop-opacity:1" />
+                                </radialGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="40" fill="url(#gradOpal)" stroke="#ffffff" stroke-width="2" />
+                            <circle cx="35" cy="35" r="10" fill="rgba(255,255,255,0.8)" filter="blur(2px)" />
+                        </svg>`;
+                    case 'ruby':
+                        return `
+                        <svg ${commonAttr}>
+                            <defs>
+                                <linearGradient id="gradRuby" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#ff3366;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#660000;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M20,30 L40,10 L60,10 L80,30 L80,60 L50,90 L20,60 Z" fill="url(#gradRuby)" stroke="#ff99aa" stroke-width="2" />
+                            <path d="M20,30 L80,30 L80,60 L50,90 L20,60 Z" fill="none" stroke="#330000" stroke-width="1" opacity="0.3"/>
+                            <path d="M30,30 L45,15 L55,15 L70,30 L70,55 L50,75 L30,55 Z" fill="rgba(255,255,255,0.15)" />
+                        </svg>`;
+                    case 'stone':
+                        return `
+                        <svg ${commonAttr}>
+                            <defs>
+                                <radialGradient id="gradStone" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                    <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#222;stop-opacity:1" />
+                                </radialGradient>
+                            </defs>
+                            <path d="M20,40 L40,20 L80,30 L90,70 L60,90 L10,70 Z" fill="url(#gradStone)" stroke="#444" stroke-width="2" />
+                            <path d="M40,20 L60,90" stroke="#111" stroke-width="2" opacity="0.3"/>
+                        </svg>`;
+                    default:
+                        return '❓';
+                }
             }
             
             changeBet(amount) {
@@ -1504,17 +1599,13 @@
                 this.updateUI();
             }
 
-            // YENİ FONKSİYON: + ve - butonları için
             adjustBet(delta) {
                 if (this.isSpinning) return;
                 
                 let currentBet = parseFloat(this.bet);
                 let newBet = currentBet + delta;
                 
-                // Minimum bahis kontrolü
                 if (newBet < 0.5) newBet = 0.5;
-                
-                // Yuvarlama
                 newBet = Math.round(newBet * 10) / 10; 
                 
                 this.changeBet(newBet);
@@ -1563,13 +1654,16 @@
                 const resultEl = document.getElementById('symbol-result');
                 
                 display.className = 'crystal-display spin-animation';
+                
+                // Dönme animasyonu sırasında rastgele ikonlar
                 for (let i = 0; i < 8; i++) {
                     const randomSymbol = this.symbols[RNG.randomInt(0, this.symbols.length - 1)];
-                    display.textContent = randomSymbol.icon;
+                    display.innerHTML = this.getSymbolIcon(randomSymbol.id); // innerHTML kullanıyoruz çünkü SVG
                     await this.sleep(80);
                 }
                 
-                display.textContent = symbol.icon;
+                // Sonuç ikonunu koy
+                display.innerHTML = this.getSymbolIcon(symbol.id);
                 display.classList.add(`glow-${symbol.color}`);
                 
                 nameEl.textContent = symbol.name;
@@ -1767,9 +1861,12 @@
                     const itemClass = item.profit > 0 ? 'win' : item.profit < 0 ? 'loss' : '';
                     const profitSign = item.profit > 0 ? '+' : '';
                     
+                    // Geçmişte ikonları küçük SVG olarak göstermek için
+                    const icon = this.getSymbolIcon(item.symbol.id).replace('width="100%"', 'width="30px"');
+                    
                     return `
                         <div class="history-item ${itemClass}">
-                            <div class="history-symbol">${item.symbol.icon}</div>
+                            <div class="history-symbol" style="width:40px; height:40px">${this.getSymbolIcon(item.symbol.id)}</div>
                             <div class="history-details">
                                 <div class="history-bet">Bahis: ${item.bet.toFixed(2)} | ${time}</div>
                                 <div class="history-result">${item.result}</div>
@@ -1854,11 +1951,12 @@
                 }
                 
                 if (this.totalSpins > 0) {
+                    // Sembol dağılımında küçük ikonları kullanmıyoruz, metin kalıyor
                     const dist = Object.entries(this.symbolCounts)
                         .map(([id, count]) => {
                             const symbol = this.symbols.find(s => s.id === id);
                             const pct = (count / this.totalSpins * 100).toFixed(1);
-                            return `${symbol.icon}${pct}%`;
+                            return `${symbol.name[0]}${pct}%`; // Sadece baş harfi
                         })
                         .join(' ');
                     document.getElementById('symbol-dist').textContent = dist;
@@ -1868,12 +1966,13 @@
                 
                 for (let i = 0; i < 3; i++) {
                     const slot = document.getElementById(`ruby-${i}`);
+                    slot.innerHTML = ''; // Temizle
                     if (i < this.rubyCount) {
                         slot.classList.add('filled');
-                        slot.textContent = '🔴';
+                        // Küçük Yakut İkonu Ekle
+                        slot.innerHTML = this.getSymbolIcon('ruby');
                     } else {
                         slot.classList.remove('filled');
-                        slot.textContent = '';
                     }
                 }
             }
