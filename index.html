@@ -686,6 +686,25 @@
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
             z-index: 999;
             min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .sound-controls.collapsed {
+            min-width: auto;
+            padding: 10px 15px;
+        }
+
+        .sound-controls.collapsed .sound-controls-content {
+            display: none;
+        }
+
+        .sound-controls-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
         }
 
         .sound-controls-title {
@@ -693,9 +712,28 @@
             color: #ffd700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
             text-align: center;
             font-weight: 900;
+            flex: 1;
+        }
+
+        .sound-controls.collapsed .sound-controls-title {
+            font-size: 12px;
+        }
+
+        .sound-toggle-arrow {
+            font-size: 20px;
+            color: #ffd700;
+            transition: transform 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .sound-controls.collapsed .sound-toggle-arrow {
+            transform: rotate(180deg);
+        }
+
+        .sound-controls-content {
+            margin-top: 10px;
         }
 
         .sound-control-row {
