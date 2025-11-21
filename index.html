@@ -722,10 +722,12 @@
         }
 
         .sound-toggle-arrow {
-            font-size: 20px;
+            font-size: 24px;
             color: #ffd700;
             transition: transform 0.3s ease;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            line-height: 1;
+            font-weight: 900;
         }
 
         .sound-controls.collapsed .sound-toggle-arrow {
@@ -924,21 +926,26 @@
         </div>
     </div>
 
-    <div class="sound-controls">
-        <div class="sound-controls-title">🔊 Ses Kontrolleri</div>
-        
-        <div class="sound-control-row">
-            <div class="sound-icon">🎵</div>
-            <div class="sound-toggle active" id="music-toggle" onclick="soundManager.toggleMusic()"></div>
-            <input type="range" class="volume-slider" id="music-volume" min="0" max="100" value="50" oninput="soundManager.setMusicVolume(this.value)">
-            <div class="volume-value" id="music-volume-value">50%</div>
+    <div class="sound-controls" id="sound-controls">
+        <div class="sound-controls-header" onclick="soundManager.togglePanel()">
+            <div class="sound-controls-title">🔊 Ses</div>
+            <div class="sound-toggle-arrow">▼</div>
         </div>
         
-        <div class="sound-control-row">
-            <div class="sound-icon">🔔</div>
-            <div class="sound-toggle active" id="sfx-toggle" onclick="soundManager.toggleSFX()"></div>
-            <input type="range" class="volume-slider" id="sfx-volume" min="0" max="100" value="70" oninput="soundManager.setSFXVolume(this.value)">
-            <div class="volume-value" id="sfx-volume-value">70%</div>
+        <div class="sound-controls-content">
+            <div class="sound-control-row">
+                <div class="sound-icon">🎵</div>
+                <div class="sound-toggle active" id="music-toggle" onclick="event.stopPropagation(); soundManager.toggleMusic()"></div>
+                <input type="range" class="volume-slider" id="music-volume" min="0" max="100" value="50" oninput="soundManager.setMusicVolume(this.value)" onclick="event.stopPropagation()">
+                <div class="volume-value" id="music-volume-value">50%</div>
+            </div>
+            
+            <div class="sound-control-row">
+                <div class="sound-icon">🔔</div>
+                <div class="sound-toggle active" id="sfx-toggle" onclick="event.stopPropagation(); soundManager.toggleSFX()"></div>
+                <input type="range" class="volume-slider" id="sfx-volume" min="0" max="100" value="70" oninput="soundManager.setSFXVolume(this.value)" onclick="event.stopPropagation()">
+                <div class="volume-value" id="sfx-volume-value">70%</div>
+            </div>
         </div>
     </div>
 
@@ -963,6 +970,7 @@
                 this.sfxEnabled = true;
                 this.musicVolume = 0.5;
                 this.sfxVolume = 0.7;
+                this.panelCollapsed = false;
                 
                 // Initialize audio elements
                 this.bgMusic = new Audio();
@@ -1003,6 +1011,17 @@
                             this.bgMusic.play().catch(() => {});
                         }
                     }, { once: true });
+                }
+            }
+            
+            togglePanel() {
+                this.panelCollapsed = !this.panelCollapsed;
+                const panel = document.getElementById('sound-controls');
+                
+                if (this.panelCollapsed) {
+                    panel.classList.add('collapsed');
+                } else {
+                    panel.classList.remove('collapsed');
                 }
             }
             
