@@ -675,12 +675,128 @@
             margin-top: 10px;
         }
 
+        .sound-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(26, 0, 51, 0.95), rgba(45, 0, 85, 0.95));
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            z-index: 999;
+            min-width: 200px;
+        }
+
+        .sound-controls-title {
+            font-size: 14px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .sound-control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .sound-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .sound-toggle {
+            width: 50px;
+            height: 26px;
+            background: #555;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #ffd700;
+        }
+
+        .sound-toggle.active {
+            background: #00ff00;
+        }
+
+        .sound-toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .sound-toggle.active::after {
+            left: 26px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(90deg, #555 0%, #ffd700 100%);
+            border-radius: 4px;
+            outline: none;
+            border: 1px solid #ffd700;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .volume-value {
+            font-size: 12px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            min-width: 35px;
+            text-align: right;
+        }
+
         @media (max-width: 600px) {
             .game-title { font-size: 24px; }
             .balance-value { font-size: 24px; }
             .crystal-display { width: 150px; height: 150px; font-size: 70px; }
             .btn { padding: 15px 30px; font-size: 20px; }
             .symbol-name { font-size: 24px; }
+            .sound-controls {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -770,6 +886,24 @@
         </div>
     </div>
 
+    <div class="sound-controls">
+        <div class="sound-controls-title">🔊 Ses Kontrolleri</div>
+        
+        <div class="sound-control-row">
+            <div class="sound-icon">🎵</div>
+            <div class="sound-toggle active" id="music-toggle" onclick="soundManager.toggleMusic()"></div>
+            <input type="range" class="volume-slider" id="music-volume" min="0" max="100" value="50" oninput="soundManager.setMusicVolume(this.value)">
+            <div class="volume-value" id="music-volume-value">50%</div>
+        </div>
+        
+        <div class="sound-control-row">
+            <div class="sound-icon">🔔</div>
+            <div class="sound-toggle active" id="sfx-toggle" onclick="soundManager.toggleSFX()"></div>
+            <input type="range" class="volume-slider" id="sfx-volume" min="0" max="100" value="70" oninput="soundManager.setSFXVolume(this.value)">
+            <div class="volume-value" id="sfx-volume-value">70%</div>
+        </div>
+    </div>
+
     <div class="modal" id="minigame-modal">
         <div class="modal-content">
             <div class="modal-title">🔴 YAKUT AVINDA! 🔴</div>
@@ -782,6 +916,123 @@
     </div>
 
     <script>
+        // ============================================
+        // Sound Manager
+        // ============================================
+        class SoundManager {
+            constructor() {
+                this.musicEnabled = true;
+                this.sfxEnabled = true;
+                this.musicVolume = 0.5;
+                this.sfxVolume = 0.7;
+                
+                // Initialize audio elements
+                this.bgMusic = new Audio();
+                this.bgMusic.loop = true;
+                this.bgMusic.volume = this.musicVolume;
+                
+                // Ses dosyalarının yolu (GitHub'da olacak)
+                this.sounds = {
+                    background: 'sounds/background.mp3',
+                    spin: 'sounds/spin.mp3',
+                    emerald: 'sounds/emerald.mp3',
+                    sapphire: 'sounds/sapphire.mp3',
+                    ruby: 'sounds/ruby.mp3'
+                };
+                
+                // Load background music
+                this.bgMusic.src = this.sounds.background;
+                
+                // Preload sound effects
+                this.sfxCache = {};
+                ['spin', 'emerald', 'sapphire', 'ruby'].forEach(key => {
+                    this.sfxCache[key] = new Audio(this.sounds[key]);
+                    this.sfxCache[key].volume = this.sfxVolume;
+                });
+                
+                // Auto-play music (browser may block, user needs to interact first)
+                this.attemptAutoPlay();
+            }
+            
+            async attemptAutoPlay() {
+                try {
+                    await this.bgMusic.play();
+                } catch (e) {
+                    // Browser blocked autoplay, will play on first user interaction
+                    console.log('Autoplay blocked - waiting for user interaction');
+                    document.addEventListener('click', () => {
+                        if (this.musicEnabled && this.bgMusic.paused) {
+                            this.bgMusic.play().catch(() => {});
+                        }
+                    }, { once: true });
+                }
+            }
+            
+            toggleMusic() {
+                this.musicEnabled = !this.musicEnabled;
+                const toggle = document.getElementById('music-toggle');
+                
+                if (this.musicEnabled) {
+                    toggle.classList.add('active');
+                    this.bgMusic.play().catch(() => {});
+                } else {
+                    toggle.classList.remove('active');
+                    this.bgMusic.pause();
+                }
+            }
+            
+            toggleSFX() {
+                this.sfxEnabled = !this.sfxEnabled;
+                const toggle = document.getElementById('sfx-toggle');
+                toggle.classList.toggle('active');
+            }
+            
+            setMusicVolume(value) {
+                this.musicVolume = value / 100;
+                this.bgMusic.volume = this.musicVolume;
+                document.getElementById('music-volume-value').textContent = value + '%';
+            }
+            
+            setSFXVolume(value) {
+                this.sfxVolume = value / 100;
+                Object.values(this.sfxCache).forEach(audio => {
+                    audio.volume = this.sfxVolume;
+                });
+                document.getElementById('sfx-volume-value').textContent = value + '%';
+            }
+            
+            playSFX(soundName) {
+                if (!this.sfxEnabled) return;
+                
+                const sound = this.sfxCache[soundName];
+                if (sound) {
+                    // Clone and play to allow overlapping sounds
+                    const clone = sound.cloneNode();
+                    clone.volume = this.sfxVolume;
+                    clone.play().catch(() => {});
+                }
+            }
+            
+            playSpinSound() {
+                this.playSFX('spin');
+            }
+            
+            playEmeraldSound() {
+                this.playSFX('emerald');
+            }
+            
+            playSapphireSound() {
+                this.playSFX('sapphire');
+            }
+            
+            playRubySound() {
+                this.playSFX('ruby');
+            }
+        }
+
+        // Initialize sound manager
+        const soundManager = new SoundManager();
+
         // ============================================
         // RNG Module
         // ============================================
@@ -907,6 +1158,9 @@
                     return;
                 }
                 
+                // Play spin sound
+                soundManager.playSpinSound();
+                
                 this.isSpinning = true;
                 this.balance -= this.bet;
                 this.totalSpins++;
@@ -965,6 +1219,9 @@
                 
                 switch(symbol.type) {
                     case 'cash':
+                        // Play emerald sound
+                        soundManager.playEmeraldSound();
+                        
                         const baseWin = RNG.weightedValue(
                             this.profile.cashValues, 
                             this.profile.cashWeights
@@ -1013,6 +1270,9 @@
                         break;
                         
                     case 'multiplier':
+                        // Play sapphire sound
+                        soundManager.playSapphireSound();
+                        
                         this.sapphireMultiplier++;
                         resultEl.textContent = `Sonraki kazanca +${this.sapphireMultiplier} çarpan!`;
                         break;
@@ -1023,6 +1283,9 @@
                         break;
                         
                     case 'collector':
+                        // Play ruby sound
+                        soundManager.playRubySound();
+                        
                         this.rubyCount++;
                         resultEl.textContent = `Yakut toplandı! (${this.rubyCount}/3)`;
                         
