@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💎 Kristal Madenleri - Compact Fix</title>
+    <title>💎 Kristal Madenleri - Final</title>
     <style>
         * {
             margin: 0;
@@ -41,7 +41,7 @@
                 inset 0 0 40px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
-            z-index: 1; /* Oyun alanı altta kalsın */
+            z-index: 1;
         }
 
         .game-container::before {
@@ -396,23 +396,21 @@
             100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
-        /* MODAL & HISTORY FIX */
+        /* MODAL & HISTORY */
         .modal, .history-modal {
-            display: none; /* Varsayılan olarak gizli */
-            position: fixed; /* Ekranı kaplayacak şekilde sabit */
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 10000; /* En üstte */
+            z-index: 10000;
             align-items: center;
             justify-content: center;
         }
 
-        .modal.active, .history-modal.active {
-            display: flex; /* Active sınıfı geldiğinde görünür */
-        }
+        .modal.active, .history-modal.active { display: flex; }
 
         .modal-content, .history-content {
             background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
@@ -443,9 +441,29 @@
         .minigame-prize { font-size: 24px; font-weight: 900; color: #ffd700; }
         
         .history-list { max-height: 50vh; overflow-y: auto; margin: 10px 0; }
+        
+        /* HISTORY ICON FIX */
         .history-item { background: rgba(0, 0, 0, 0.5); padding: 10px; margin: 5px 0; border-radius: 10px; border: 1px solid #8a2be2; display: flex; justify-content: space-between; align-items: center; }
         .history-item.win { border-color: #00ff00; background: rgba(0, 255, 0, 0.1); }
         .history-item.loss { border-color: #ff0000; background: rgba(255, 0, 0, 0.1); }
+        
+        /* İkonun sığması için gerekli kapsayıcı ayarı */
+        .history-symbol { 
+            width: 35px; 
+            height: 35px; 
+            min-width: 35px; /* Küçülmeyi engeller */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        /* Geçmişteki SVG ikonları zorla küçültür */
+        .history-symbol .game-icon {
+            width: 100% !important;
+            height: 100% !important;
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)) !important;
+        }
+
+        .history-details { flex: 1; margin: 0 10px; }
         .history-bet { font-size: 11px; color: #ffd700; }
         .history-result { font-size: 10px; color: #00bfff; margin-top: 2px; }
         .history-win { font-size: 16px; font-weight: 900; font-family: 'Courier New', monospace; }
@@ -659,13 +677,12 @@
             constructor() {
                 this.musicEnabled = true;
                 this.sfxEnabled = true;
-                this.musicVolume = 0.5;
-                this.sfxVolume = 0.7;
                 this.panelCollapsed = true; 
                 
                 this.bgMusic = new Audio();
                 this.bgMusic.loop = true;
-                this.bgMusic.volume = this.musicVolume;
+                this.bgMusic.volume = this.musicVolume = 0.5;
+                this.sfxVolume = 0.7;
                 
                 this.sounds = {
                     background: 'sounds/background.mp3',
@@ -682,28 +699,25 @@
                     this.sfxCache[key] = new Audio(this.sounds[key]);
                     this.sfxCache[key].volume = this.sfxVolume;
                 });
-
-                this.startBackgroundMusic();
+                
+                // Otomatik başlatmayı dene
+                this.tryStartMusic();
             }
             
-            startBackgroundMusic() {
+            tryStartMusic() {
                 const playPromise = this.bgMusic.play();
                 if (playPromise !== undefined) {
-                    playPromise.then(() => { console.log('Music started'); }).catch((error) => {
-                        const startOnInteraction = () => {
-                            if (this.musicEnabled) { this.bgMusic.play().catch(() => {}); }
-                            document.removeEventListener('click', startOnInteraction);
-                            document.removeEventListener('touchstart', startOnInteraction);
-                            document.removeEventListener('keydown', startOnInteraction);
-                        };
-                        document.addEventListener('click', startOnInteraction, { once: true });
-                        document.addEventListener('touchstart', startOnInteraction, { once: true });
-                        document.addEventListener('keydown', startOnInteraction, { once: true });
+                    playPromise.catch(error => {
+                        console.log("Autoplay engellendi. Kullanıcı etkileşimi bekleniyor.");
                     });
                 }
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) { this.bgMusic.pause(); } else if (this.musicEnabled) { this.bgMusic.play().catch(() => {}); }
-                });
+            }
+            
+            // Global kilit açma fonksiyonu
+            unlockAudio() {
+                if (this.musicEnabled && this.bgMusic.paused) {
+                    this.bgMusic.play().catch(() => {});
+                }
             }
             
             togglePanel() {
@@ -749,6 +763,17 @@
         }
 
         const soundManager = new SoundManager();
+        
+        // GLOBAL SES KİLİDİ AÇICI: Kullanıcı ekrana ilk dokunduğunda sesi aç
+        function unlockAudioContext() {
+            soundManager.unlockAudio();
+            document.removeEventListener('click', unlockAudioContext);
+            document.removeEventListener('touchstart', unlockAudioContext);
+            document.removeEventListener('keydown', unlockAudioContext);
+        }
+        document.addEventListener('click', unlockAudioContext);
+        document.addEventListener('touchstart', unlockAudioContext);
+        document.addEventListener('keydown', unlockAudioContext);
 
         const RNG = {
             random() {
@@ -870,6 +895,9 @@
             }
             
             async spin() {
+                // Spin butonuna basınca sesi garanti başlat
+                soundManager.unlockAudio();
+
                 if (this.isSpinning) return;
                 if (this.balance < this.bet) { this.showMessage('Yetersiz bakiye!'); return; }
                 
@@ -1037,7 +1065,7 @@
                     const profitClass = item.profit > 0 ? 'positive' : item.profit < 0 ? 'negative' : '';
                     const itemClass = item.profit > 0 ? 'win' : item.profit < 0 ? 'loss' : '';
                     const profitSign = item.profit > 0 ? '+' : '';
-                    return `<div class="history-item ${itemClass}"><div class="history-symbol" style="width:30px; height:30px">${this.getSymbolIcon(item.symbol.id)}</div><div class="history-details"><div class="history-bet">Bahis: ${item.bet.toFixed(0)} | ${time}</div><div class="history-result">${item.result}</div></div><div class="history-win ${profitClass}">${profitSign}${item.profit.toFixed(0)}</div></div>`;
+                    return `<div class="history-item ${itemClass}"><div class="history-symbol">${this.getSymbolIcon(item.symbol.id)}</div><div class="history-details"><div class="history-bet">Bahis: ${item.bet.toFixed(0)} | ${time}</div><div class="history-result">${item.result}</div></div><div class="history-win ${profitClass}">${profitSign}${item.profit.toFixed(0)}</div></div>`;
                 }).join('');
             }
             
