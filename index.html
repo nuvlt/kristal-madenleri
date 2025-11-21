@@ -86,11 +86,20 @@
         }
 
         .balance-bar {
-            display: flex;
-            justify-content: space-around;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             padding: 20px;
             background: linear-gradient(180deg, #1a0033 0%, #2d0055 100%);
             border-bottom: 3px solid #ffd700;
+        }
+
+        @media (max-width: 600px) {
+            .balance-bar {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px;
+            }
         }
 
         .balance-item {
@@ -983,7 +992,8 @@
                     spin: 'sounds/spin.mp3',
                     emerald: 'sounds/emerald.mp3',
                     sapphire: 'sounds/sapphire.mp3',
-                    ruby: 'sounds/ruby.mp3'
+                    ruby: 'sounds/ruby.mp3',
+                    opal: 'sounds/opal.mp3'
                 };
                 
                 // Load background music
@@ -991,26 +1001,38 @@
                 
                 // Preload sound effects
                 this.sfxCache = {};
-                ['spin', 'emerald', 'sapphire', 'ruby'].forEach(key => {
+                ['spin', 'emerald', 'sapphire', 'ruby', 'opal'].forEach(key => {
                     this.sfxCache[key] = new Audio(this.sounds[key]);
                     this.sfxCache[key].volume = this.sfxVolume;
                 });
                 
-                // Auto-play music (browser may block, user needs to interact first)
-                this.attemptAutoPlay();
+                // Auto-play music on page load
+                this.startBackgroundMusic();
             }
             
-            async attemptAutoPlay() {
-                try {
-                    await this.bgMusic.play();
-                } catch (e) {
-                    // Browser blocked autoplay, will play on first user interaction
-                    console.log('Autoplay blocked - waiting for user interaction');
-                    document.addEventListener('click', () => {
-                        if (this.musicEnabled && this.bgMusic.paused) {
-                            this.bgMusic.play().catch(() => {});
-                        }
-                    }, { once: true });
+            startBackgroundMusic() {
+                // Try to play immediately
+                const playPromise = this.bgMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Background music started automatically');
+                    }).catch((error) => {
+                        console.log('Autoplay prevented, waiting for user interaction');
+                        // If blocked, play on first user interaction
+                        const startOnInteraction = () => {
+                            if (this.musicEnabled) {
+                                this.bgMusic.play().catch(() => {});
+                            }
+                            document.removeEventListener('click', startOnInteraction);
+                            document.removeEventListener('touchstart', startOnInteraction);
+                            document.removeEventListener('keydown', startOnInteraction);
+                        };
+                        
+                        document.addEventListener('click', startOnInteraction, { once: true });
+                        document.addEventListener('touchstart', startOnInteraction, { once: true });
+                        document.addEventListener('keydown', startOnInteraction, { once: true });
+                    });
                 }
             }
             
@@ -1084,6 +1106,10 @@
             
             playRubySound() {
                 this.playSFX('ruby');
+            }
+            
+            playOpalSound() {
+                this.playSFX('opal');
             }
         }
 
@@ -1335,6 +1361,9 @@
                         break;
                         
                     case 'double':
+                        // Play opal sound
+                        soundManager.playOpalSound();
+                        
                         this.opalActive = true;
                         resultEl.textContent = 'Sonraki kazanç 2 katına çıkacak!';
                         break;
