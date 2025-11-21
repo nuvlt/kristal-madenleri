@@ -85,157 +85,183 @@
             50% { transform: scale(1.05); }
         }
 
+        /* --- YENİ MODERN BALANCE BAR TASARIMI --- */
         .balance-bar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
             padding: 20px;
-            background: linear-gradient(180deg, #1a0033 0%, #2d0055 100%);
+            background: rgba(26, 0, 51, 0.8);
             border-bottom: 3px solid #ffd700;
+            backdrop-filter: blur(5px);
+            flex-wrap: wrap;
+        }
+
+        /* Sol: Cüzdan Alanı */
+        .wallet-section {
+            flex: 1;
+            min-width: 150px;
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid #444;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 12px;
+            color: #8a2be2;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .wallet-display {
+            font-family: 'Courier New', monospace;
+            font-size: 36px;
+            font-weight: 900;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .currency-symbol {
+            font-size: 24px;
+            color: #ffd700;
+        }
+
+        /* Sağ: Bahis Kontrol Alanı */
+        .bet-control-section {
+            flex: 2;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Manuel Ayar (+ - Input) */
+        .manual-bet-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #000;
+            padding: 5px;
+            border-radius: 50px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .bet-input-modern {
+            width: 90px;
+            background: transparent;
+            border: none;
+            color: #ffd700;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+        
+        .bet-input-modern::-webkit-outer-spin-button,
+        .bet-input-modern::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .adjust-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(180deg, #ff6600, #cc4400);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s;
+            font-family: monospace;
+        }
+
+        .adjust-btn:active {
+            transform: scale(0.9);
+        }
+
+        .adjust-btn.minus { background: #444; border: 1px solid #666; }
+        .adjust-btn.plus { border: 1px solid #ffd700; }
+
+        /* Hızlı Çipler */
+        .quick-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chip-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px dashed #ffd700;
+            background: linear-gradient(135deg, #2d0055, #1a0033);
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chip-btn:hover {
+            transform: translateY(-3px) rotate(10deg);
+            background: #ffd700;
+            color: #2d0055;
+            border-style: solid;
+            box-shadow: 0 0 15px #ffd700;
+        }
+        
+        .chip-btn:active {
+            transform: translateY(0);
         }
 
         @media (max-width: 600px) {
             .balance-bar {
-                grid-template-columns: 1fr;
-                gap: 10px;
+                flex-direction: column;
+                gap: 15px;
                 padding: 15px;
             }
-        }
-
-        .balance-item {
-            text-align: center;
-            flex: 1;
-            position: relative;
-            padding: 10px;
-        }
-
-        .balance-item::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 10%;
-            height: 80%;
-            width: 2px;
-            background: linear-gradient(180deg, transparent, #ffd700, transparent);
-        }
-
-        .balance-item:last-child::after {
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            .balance-item::after {
-                display: none;
+            
+            .wallet-section, .bet-control-section {
+                width: 100%;
+                min-width: auto;
             }
             
-            .balance-item {
-                padding: 5px;
+            .manual-bet-wrapper {
+                width: 100%;
+                justify-content: space-between;
+                padding: 5px 10px;
             }
+            
+            .wallet-display { font-size: 28px; }
         }
-
-        .balance-label {
-            font-size: 14px;
-            color: #ffd700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-
-        .balance-value {
-            font-size: 32px;
-            font-weight: 900;
-            color: #00ff00;
-            text-shadow: 
-                0 0 10px #00ff00,
-                0 0 20px #00ff00,
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-            font-family: 'Courier New', monospace;
-        }
-
-        @media (max-width: 600px) {
-            .balance-value {
-                font-size: 24px;
-            }
-        }
-
-        .bet-input-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 600px) {
-            .bet-input-wrapper {
-                gap: 5px;
-                margin-top: 8px;
-            }
-        }
-
-        .bet-input {
-            width: 120px;
-            padding: 8px;
-            font-size: 20px;
-            font-weight: 900;
-            background: #000;
-            border: 3px solid #ffd700;
-            border-radius: 10px;
-            color: #00ff00;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            box-shadow: 
-                inset 0 0 10px rgba(255, 215, 0, 0.3),
-                0 0 20px rgba(255, 215, 0, 0.5);
-        }
-
-        @media (max-width: 600px) {
-            .bet-input {
-                width: 100px;
-                font-size: 18px;
-                padding: 6px;
-            }
-        }
-
-        .bet-input:focus {
-            outline: none;
-            box-shadow: 
-                inset 0 0 15px rgba(255, 215, 0, 0.5),
-                0 0 30px rgba(255, 215, 0, 0.8);
-        }
-
-        .bet-btn {
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 900;
-            background: linear-gradient(180deg, #ff6600 0%, #cc4400 100%);
-            border: 2px solid #ffd700;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 0 #aa3300, 0 6px 10px rgba(0, 0, 0, 0.5);
-            transition: all 0.1s;
-        }
-
-        @media (max-width: 600px) {
-            .bet-btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-        }
-
-        .bet-btn:hover {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #aa3300, 0 4px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .bet-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #aa3300, 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
+        /* --- BALANCE BAR SONU --- */
 
         .collectors-bar {
             display: flex;
@@ -645,14 +671,8 @@
         }
 
         @keyframes winFloat {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-150px) scale(2);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-150px) scale(2); opacity: 0; }
         }
 
         .modal {
@@ -1066,16 +1086,6 @@
 
         @media (max-width: 600px) {
             .game-title { font-size: 24px; }
-            .balance-value { font-size: 24px; }
-            .balance-item::after { display: none; }
-            .balance-item { padding: 5px; }
-            .balance-label { font-size: 12px; }
-            .bet-input-wrapper { gap: 5px; margin-top: 8px; flex-wrap: wrap; }
-            .bet-input { width: 100px; font-size: 18px; padding: 6px; }
-            .bet-btn { padding: 6px 12px; font-size: 12px; }
-            .collector-title { font-size: 9px; letter-spacing: 0.5px; }
-            .collector-value { font-size: 22px; margin-top: 3px; }
-            .ruby-slot { width: 28px; height: 28px; font-size: 18px; border: 2px solid #ff1493; }
             .crystal-display { width: 150px; height: 150px; font-size: 70px; }
             .btn { padding: 15px 30px; font-size: 20px; }
             .symbol-name { font-size: 24px; }
@@ -1091,22 +1101,33 @@
         </div>
 
         <div class="balance-bar">
-            <div class="balance-item">
-                <div class="balance-label">💰 Bakiye</div>
-                <div class="balance-value" id="balance">1000</div>
+            <div class="wallet-section">
+                <div class="section-label">💰 KASA</div>
+                <div class="wallet-display">
+                    <span class="currency-symbol">₺</span>
+                    <span id="balance">1000</span>
+                </div>
             </div>
-            <div class="balance-item">
-                <div class="balance-label">🎲 Bahis</div>
-                <div class="balance-value" id="bet-display" style="color: #ffd700;">1</div>
-                <div class="bet-input-wrapper">
-                    <input type="number" class="bet-input" id="bet-input" value="1" min="0.1" step="0.5" onchange="game.updateBetFromInput()">
+
+            <div class="bet-control-section">
+                <div class="section-label">🎲 BAHİS MİKTARI</div>
+                
+                <div class="manual-bet-wrapper">
+                    <button class="adjust-btn minus" onclick="game.adjustBet(-0.5)">−</button>
+                    <div class="input-container">
+                        <input type="number" class="bet-input-modern" id="bet-input" value="1" min="0.1" step="0.5" onchange="game.updateBetFromInput()">
+                    </div>
+                    <button class="adjust-btn plus" onclick="game.adjustBet(0.5)">+</button>
                 </div>
-                <div class="bet-input-wrapper">
-                    <button class="bet-btn" onclick="game.changeBet(1)">1</button>
-                    <button class="bet-btn" onclick="game.changeBet(5)">5</button>
-                    <button class="bet-btn" onclick="game.changeBet(10)">10</button>
-                    <button class="bet-btn" onclick="game.changeBet(50)">50</button>
+
+                <div class="quick-chips">
+                    <button class="chip-btn" onclick="game.changeBet(1)">1</button>
+                    <button class="chip-btn" onclick="game.changeBet(5)">5</button>
+                    <button class="chip-btn" onclick="game.changeBet(10)">10</button>
+                    <button class="chip-btn" onclick="game.changeBet(50)">50</button>
                 </div>
+                
+                <div id="bet-display" style="display:none;">1</div>
             </div>
         </div>
 
@@ -1233,7 +1254,6 @@
                 this.bgMusic.loop = true;
                 this.bgMusic.volume = this.musicVolume;
                 
-                // Ses dosyalarının yolu (GitHub'da olacak)
                 this.sounds = {
                     background: 'sounds/background.mp3',
                     spin: 'sounds/spin.mp3',
@@ -1242,31 +1262,24 @@
                     ruby: 'sounds/ruby.mp3',
                     opal: 'sounds/opal.mp3'
                 };
-                
-                // Load background music
+
                 this.bgMusic.src = this.sounds.background;
-                
-                // Preload sound effects
+
                 this.sfxCache = {};
                 ['spin', 'emerald', 'sapphire', 'ruby', 'opal'].forEach(key => {
                     this.sfxCache[key] = new Audio(this.sounds[key]);
                     this.sfxCache[key].volume = this.sfxVolume;
                 });
-                
-                // Auto-play music on page load
+
                 this.startBackgroundMusic();
             }
             
             startBackgroundMusic() {
-                // Try to play immediately
                 const playPromise = this.bgMusic.play();
-                
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         console.log('Background music started automatically');
                     }).catch((error) => {
-                        console.log('Autoplay prevented, waiting for user interaction');
-                        // If blocked, play on first user interaction
                         const startOnInteraction = () => {
                             if (this.musicEnabled) {
                                 this.bgMusic.play().catch(() => {});
@@ -1282,7 +1295,6 @@
                     });
                 }
                 
-                // Stop music when page is hidden/closed
                 document.addEventListener('visibilitychange', () => {
                     if (document.hidden) {
                         this.bgMusic.pause();
@@ -1290,19 +1302,16 @@
                         this.bgMusic.play().catch(() => {});
                     }
                 });
-                
-                // Stop music when window/tab is being unloaded
+
                 window.addEventListener('beforeunload', () => {
                     this.bgMusic.pause();
                     this.bgMusic.currentTime = 0;
                 });
-                
-                // Stop music when page loses focus (mobile browsers)
+
                 window.addEventListener('blur', () => {
                     this.bgMusic.pause();
                 });
-                
-                // Resume music when page gains focus (if enabled)
+
                 window.addEventListener('focus', () => {
                     if (this.musicEnabled && !document.hidden) {
                         this.bgMusic.play().catch(() => {});
@@ -1327,7 +1336,6 @@
                 
                 if (this.musicEnabled) {
                     toggle.classList.add('active');
-                    // Force play when user manually enables music
                     this.bgMusic.play().catch((e) => {
                         console.log('Failed to play music:', e);
                     });
@@ -1359,38 +1367,21 @@
             
             playSFX(soundName) {
                 if (!this.sfxEnabled) return;
-                
                 const sound = this.sfxCache[soundName];
                 if (sound) {
-                    // Clone and play to allow overlapping sounds
                     const clone = sound.cloneNode();
                     clone.volume = this.sfxVolume;
                     clone.play().catch(() => {});
                 }
             }
             
-            playSpinSound() {
-                this.playSFX('spin');
-            }
-            
-            playEmeraldSound() {
-                this.playSFX('emerald');
-            }
-            
-            playSapphireSound() {
-                this.playSFX('sapphire');
-            }
-            
-            playRubySound() {
-                this.playSFX('ruby');
-            }
-            
-            playOpalSound() {
-                this.playSFX('opal');
-            }
+            playSpinSound() { this.playSFX('spin'); }
+            playEmeraldSound() { this.playSFX('emerald'); }
+            playSapphireSound() { this.playSFX('sapphire'); }
+            playRubySound() { this.playSFX('ruby'); }
+            playOpalSound() { this.playSFX('opal'); }
         }
 
-        // Initialize sound manager
         const soundManager = new SoundManager();
 
         // ============================================
@@ -1512,6 +1503,22 @@
                 document.getElementById('bet-display').textContent = value;
                 this.updateUI();
             }
+
+            // YENİ FONKSİYON: + ve - butonları için
+            adjustBet(delta) {
+                if (this.isSpinning) return;
+                
+                let currentBet = parseFloat(this.bet);
+                let newBet = currentBet + delta;
+                
+                // Minimum bahis kontrolü
+                if (newBet < 0.5) newBet = 0.5;
+                
+                // Yuvarlama
+                newBet = Math.round(newBet * 10) / 10; 
+                
+                this.changeBet(newBet);
+            }
             
             async spin() {
                 if (this.isSpinning) return;
@@ -1520,9 +1527,7 @@
                     return;
                 }
                 
-                // Play spin sound
                 soundManager.playSpinSound();
-                
                 this.isSpinning = true;
                 this.balance -= this.bet;
                 this.totalSpins++;
@@ -1540,7 +1545,6 @@
                 
                 this.isSpinning = false;
                 document.getElementById('spin-btn').disabled = false;
-                
                 if (this.autoMode && this.autoRemaining > 0) {
                     this.autoRemaining--;
                     this.updateAutoButton();
@@ -1559,7 +1563,6 @@
                 const resultEl = document.getElementById('symbol-result');
                 
                 display.className = 'crystal-display spin-animation';
-                
                 for (let i = 0; i < 8; i++) {
                     const randomSymbol = this.symbols[RNG.randomInt(0, this.symbols.length - 1)];
                     display.textContent = randomSymbol.icon;
@@ -1582,9 +1585,7 @@
                 
                 switch(symbol.type) {
                     case 'cash':
-                        // Play emerald sound
                         soundManager.playEmeraldSound();
-                        
                         const baseWin = RNG.weightedValue(
                             this.profile.cashValues, 
                             this.profile.cashWeights
@@ -1603,12 +1604,10 @@
                         }
                         
                         win *= totalMultiplier;
-                        
                         const baseAmount = baseWin * this.bet;
                         
                         if (totalMultiplier > 1) {
                             let calcText = `💎 ${baseAmount.toFixed(2)}`;
-                            
                             if (currentSapphire > 0) {
                                 const sapphireMult = (1 + currentSapphire);
                                 calcText += ` × ${sapphireMult}x 🔷`;
@@ -1628,51 +1627,42 @@
                         this.totalWins += win;
                         this.showWinAnimation(win);
                         
-                        // Add to history
                         this.addToHistory(symbol, this.bet, win, resultText);
-                        
                         await this.sleep(400);
                         this.sapphireMultiplier = 0;
                         this.opalActive = false;
                         this.updateUI();
                         break;
-                        
+
                     case 'multiplier':
-                        // Play sapphire sound
                         soundManager.playSapphireSound();
-                        
                         this.sapphireMultiplier++;
                         resultText = `Sonraki kazanca +${this.sapphireMultiplier} çarpan!`;
                         resultEl.textContent = resultText;
                         this.addToHistory(symbol, this.bet, 0, resultText);
                         break;
-                        
+
                     case 'double':
-                        // Play opal sound
                         soundManager.playOpalSound();
-                        
                         this.opalActive = true;
                         resultText = 'Sonraki kazanç 2 katına çıkacak!';
                         resultEl.textContent = resultText;
                         this.addToHistory(symbol, this.bet, 0, resultText);
                         break;
-                        
+
                     case 'collector':
-                        // Play ruby sound
                         soundManager.playRubySound();
-                        
                         this.rubyCount++;
                         resultText = `Yakut toplandı! (${this.rubyCount}/3)`;
                         resultEl.textContent = resultText;
                         this.addToHistory(symbol, this.bet, 0, resultText);
-                        
                         if (this.rubyCount >= 3) {
                             await this.sleep(1000);
                             await this.startMinigame();
                             this.rubyCount = 0;
                         }
                         break;
-                        
+
                     case 'empty':
                         resultText = 'Boş taş... Tekrar dene!';
                         resultEl.textContent = resultText;
@@ -1693,7 +1683,6 @@
                 
                 const prizes = this.generateMinigamePrizes();
                 let totalWin = 0;
-                
                 for (let i = 0; i < 10; i++) {
                     const cell = document.createElement('div');
                     cell.className = 'minigame-cell';
@@ -1746,10 +1735,8 @@
                     result: resultText,
                     profit: win - bet
                 };
-                
                 this.history.unshift(historyItem);
                 
-                // Keep only last 50 items
                 if (this.history.length > this.maxHistorySize) {
                     this.history.pop();
                 }
@@ -1769,7 +1756,6 @@
             
             renderHistory() {
                 const listEl = document.getElementById('history-list');
-                
                 if (this.history.length === 0) {
                     listEl.innerHTML = '<div class="history-empty">Henüz bahis geçmişi yok</div>';
                     return;
@@ -1805,14 +1791,12 @@
             
             startAuto(count) {
                 if (this.isSpinning) return;
-                
                 this.autoMode = true;
                 this.autoCount = count;
                 this.autoRemaining = count;
                 
                 document.getElementById('auto-options').classList.remove('show');
                 this.updateAutoButton();
-                
                 if (!this.isSpinning) {
                     this.spin();
                 }
@@ -1832,7 +1816,6 @@
             
             updateAutoButton() {
                 const btn = document.getElementById('auto-btn');
-                
                 if (this.autoMode && this.autoRemaining > 0) {
                     btn.classList.add('active');
                     btn.textContent = `AUTO (${this.autoRemaining})`;
@@ -1863,7 +1846,6 @@
                 document.getElementById('opal-active').textContent = this.opalActive ? '2x' : '-';
                 document.getElementById('total-spins').textContent = this.totalSpins;
                 document.getElementById('total-wins').textContent = this.totalWins.toFixed(2);
-                
                 if (this.totalBets > 0) {
                     const actualRTP = (this.totalWins / this.totalBets * 100).toFixed(2);
                     document.getElementById('actual-rtp').textContent = actualRTP + '%';
@@ -1905,7 +1887,6 @@
         // Initialize Game
         // ============================================
         const game = new GameEngine();
-        
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && !game.isSpinning) {
                 e.preventDefault();
