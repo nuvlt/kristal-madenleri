@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💎 Kristal Madenleri - Responsive</title>
+    <title>💎 Kristal Madeni </title>
     <style>
         * {
             margin: 0;
@@ -27,10 +27,10 @@
             overflow-x: hidden;
         }
 
-        /* --- MOBİL ÖNCELİKLİ TEMEL CSS (480px Compact) --- */
+        /* --- MOBİL ÖNCELİKLİ CSS (480px Compact) --- */
 
         .game-container {
-            max-width: 480px; /* Varsayılan Mobil Genişlik */
+            max-width: 480px;
             width: 100%;
             background: linear-gradient(180deg, #2d0055 0%, #1a0033 100%);
             border: 3px solid #ffd700;
@@ -40,7 +40,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            transition: max-width 0.3s ease; /* Geçiş efekti */
+            transition: max-width 0.3s ease;
         }
 
         .game-container::before {
@@ -338,7 +338,6 @@
             100% { transform: scale(1) rotate(720deg); }
         }
 
-        /* GLOW EFFECTS */
         .crystal-display.glow-emerald { border-color: #00ff00; box-shadow: 0 0 30px rgba(0, 255, 0, 0.3), inset 0 0 30px rgba(0, 255, 0, 0.1); }
         .crystal-display.glow-emerald .game-icon { filter: drop-shadow(0 0 15px #00ff00); animation: iconPulse 0.8s ease-out; }
         .crystal-display.glow-sapphire { border-color: #00bfff; box-shadow: 0 0 30px rgba(0, 191, 255, 0.3), inset 0 0 30px rgba(0, 191, 255, 0.1); }
@@ -429,8 +428,34 @@
 
         .history-title { color: #ffd700; text-shadow: none; }
 
+        /* MINIGAME GRID & ANIMATION FIX */
         .minigame-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 15px 0; }
-        .minigame-cell { background: linear-gradient(135deg, #000, #1a0033); padding: 20px; border: 2px solid #ffd700; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 24px; }
+        
+        .minigame-cell { 
+            background: linear-gradient(135deg, #000, #1a0033); 
+            padding: 20px; 
+            border: 2px solid #ffd700; 
+            border-radius: 10px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            font-size: 24px; 
+        }
+        
+        /* DÖNME EFEKTİ (FLIP REVEAL) */
+        .minigame-cell.revealed {
+            animation: cellReveal 0.5s ease-out forwards;
+            background: linear-gradient(135deg, #2d0055, #4b0082);
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0,255,0,0.3);
+        }
+
+        @keyframes cellReveal {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(90deg) scale(1.1); opacity: 0.5; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+
         .minigame-prize { font-size: 24px; font-weight: 900; color: #ffd700; }
         
         .history-list { max-height: 50vh; overflow-y: auto; margin: 10px 0; }
@@ -447,7 +472,6 @@
             align-items: center; 
             justify-content: center; 
         }
-        /* Geçmiş ikonları için !important kuralı */
         .history-symbol .game-icon {
             width: 100% !important;
             height: 100% !important;
@@ -524,8 +548,7 @@
             .chip-btn { width: 30px; height: 30px; font-size: 10px; }
         }
 
-        /* --- MASAÜSTÜ (DESKTOP) İÇİN BÜYÜTME AYARLARI --- */
-        /* Ekran genişliği 768px'den büyükse bu kurallar geçerli olur */
+        /* --- MASAÜSTÜ (DESKTOP) --- */
         @media (min-width: 768px) {
             .game-container { max-width: 700px; border-radius: 25px; }
             .game-header { padding: 20px; }
@@ -548,7 +571,7 @@
             .ruby-slot { width: 35px; height: 35px; font-size: 22px; }
             .slot-machine { padding: 40px 20px; min-height: 350px; }
             .crystal-display { width: 200px; height: 200px; margin-bottom: 20px; }
-            .game-icon { width: 130px; height: 130px; } /* Masaüstünde ikon büyür */
+            .game-icon { width: 130px; height: 130px; }
             .symbol-info { min-height: 80px; }
             .symbol-name { font-size: 32px; letter-spacing: 3px; margin-bottom: 10px; }
             .symbol-result { font-size: 18px; }
@@ -787,7 +810,6 @@
 
         const soundManager = new SoundManager();
         
-        // GLOBAL SES KİLİDİ
         function unlockAudioContext() {
             soundManager.unlockAudio();
             document.removeEventListener('click', unlockAudioContext);
@@ -1053,17 +1075,15 @@
             }
             
             generateMinigamePrizes() {
-                const target = this.profile.minigameEV * this.bet;
                 const prizes = [];
-                let sum = 0;
-                for (let i = 0; i < 9; i++) {
-                    const min = 0.2 * this.bet;
-                    const max = 0.4 * target;
-                    const prize = min + RNG.random() * (max - min);
+                for (let i = 0; i < 10; i++) {
+                    // DÜZELTME: Her kutu bahsin 2x ile 10x'i arasında rastgele bir ödül verir.
+                    // Artık son kutu 0 olmak zorunda değil.
+                    const min = 2 * this.bet;
+                    const max = 10 * this.bet;
+                    const prize = Math.floor(min + RNG.random() * (max - min));
                     prizes.push(prize);
-                    sum += prize;
                 }
-                prizes.push(Math.max(0, target - sum));
                 return prizes;
             }
             
